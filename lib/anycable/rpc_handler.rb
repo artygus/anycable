@@ -15,6 +15,7 @@ module AnyCable
 
     # Handle connection request from WebSocket server
     def connect(request, _unused_call)
+      ts = Time.now
       logger.debug("RPC Connect: #{request.inspect}")
 
       socket = build_socket(env: rack_env(request))
@@ -32,9 +33,12 @@ module AnyCable
           transmissions: socket.transmissions
         )
       end
+    ensure
+      puts "[DEBUG] connect took #{ts - Time.now}"
     end
 
     def disconnect(request, _unused_call)
+      ts = Time.now
       logger.debug("RPC Disconnect: #{request.inspect}")
 
       socket = build_socket(env: rack_env(request))
@@ -50,9 +54,12 @@ module AnyCable
       else
         AnyCable::DisconnectResponse.new(status: AnyCable::Status::FAILURE)
       end
+    ensure
+      puts "[DEBUG] disconnect took #{ts - Time.now}"
     end
 
     def command(message, _unused_call)
+      ts = Time.now
       logger.debug("RPC Command: #{message.inspect}")
 
       socket = build_socket
@@ -75,6 +82,8 @@ module AnyCable
         streams: socket.streams,
         transmissions: socket.transmissions
       )
+    ensure
+      puts "[DEBUG] command took #{ts - Time.now}"
     end
 
     private
