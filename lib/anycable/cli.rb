@@ -44,14 +44,14 @@ module AnyCable
 
       verify_connection_factory!
 
-      log_grpc! if config.log_grpc
+      log_grpc! #if config.log_grpc
 
       log_errors!
 
       @server = AnyCable::Server.new(
         host: config.rpc_host,
-        **config.to_grpc_params,
-        interceptors: AnyCable.middleware.to_a
+        **config.to_grpc_params
+        #interceptors: AnyCable.middleware.to_a
       )
 
       # Make sure middlewares are not adding after server has started
