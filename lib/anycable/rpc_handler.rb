@@ -34,7 +34,7 @@ module AnyCable
         )
       end
     ensure
-      puts "[DEBUG] connect took #{ts - Time.now}"
+      logger.debug "[DEBUG] connect took #{ts - Time.now}"
     end
 
     def disconnect(request, _unused_call)
@@ -55,7 +55,7 @@ module AnyCable
         AnyCable::DisconnectResponse.new(status: AnyCable::Status::FAILURE)
       end
     ensure
-      puts "[DEBUG] disconnect took #{ts - Time.now}"
+      logger.debug "[DEBUG] disconnect took #{ts - Time.now}"
     end
 
     def command(message, _unused_call)
@@ -83,7 +83,7 @@ module AnyCable
         transmissions: socket.transmissions
       )
     ensure
-      puts "[DEBUG] command took #{ts - Time.now}"
+      logger.debug "[DEBUG] command took #{ts - Time.now}"
     end
 
     private
